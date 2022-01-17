@@ -1,25 +1,24 @@
 import hashlib
 import json
 from datetime import datetime
-from collections import OrderedDict
+import redis
 
 from decouple import config
 from flask import Flask, jsonify, session
-from flask_session import Session
 
 SECRET_KEY = config('SECRET_KEY')
 
 app = Flask(__name__)
+app.config['JSON_SORT_KEYS'] = False
 
-app.secret_key = SECRET_KEY
 
-app.config.from_object('config.BaseConfig')
+r = redis.StrictRedis(host= config('REDIS_HOST'), port=int(config('REDIS_PORT')), db=0)
 
-server_session = Session(app)
 
 def generate_uuid(date:str, salt = SECRET_KEY) -> str:
     encrypted = hashlib.md5(str(date + salt).encode()).hexdigest()
     return encrypted
+
 
 def is_key_date(key:str) -> bool:
     for c in key:
@@ -28,16 +27,21 @@ def is_key_date(key:str) -> bool:
             return False
     return True
 
+
 @app.route("/", methods = ['GET','POST'])
 def get_record():
     date_key = str(datetime.now()).replace('T', ' ')
     uuid = generate_uuid(date_key)
 
-    timedata = session['timedata'] if 'timedata' in session.keys() else {}
-    timedata = {date_key:uuid, **timedata }
-    session['timedata'] = timedata
+    timedata = r.get('timedata') if b'timedata' in r.keys() else '{}'
 
-    return jsonify(timedata, sort_keys=False)
+    timedata = json.loads(timedata)
+    timedata = {date_key:uuid, **timedata }
+    r.set('timedata', json.dumps(timedata))
+    r.save()
+
+    print(f'timedata: {timedata}')
+    return jsonify(timedata)
 
 
 if __name__ == "__main__":
