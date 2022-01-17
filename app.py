@@ -1,29 +1,45 @@
-from random import random
+import hashlib
+import json
+from datetime import datetime
+from collections import OrderedDict
 
-import redis
-from flask import Flask, request, jsonify
-import requests
-from flask_caching import Cache
+from decouple import config
+from flask import Flask, jsonify, session
+from flask_session import Session
+
+SECRET_KEY = config('SECRET_KEY')
 
 app = Flask(__name__)
 
-app.config.from_object('config.Config')
-# Create and initialize the Flask-Session object AFTER `app` has been configured
-cache = Cache(app)
+app.secret_key = SECRET_KEY
 
+app.config.from_object('config.BaseConfig')
 
-def generate_random_code(str_size):
-    allowed_chars='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-    return ''.join(random.choice(allowed_chars) for x in range(str_size))
+server_session = Session(app)
+
+def generate_uuid(date:str, salt = SECRET_KEY) -> str:
+
+    encrypted = hashlib.md5(str(date + salt).encode()).hexdigest()
+    return encrypted
+
+def is_key_date(key:str) -> bool:
+    for c in key:
+        test = ord(c)
+        if (test >= 97 and test <= 122 ) or (test >= 65 and test <= 90):
+            return False
+    return True
 
 @app.route("/", methods = ['GET','POST'])
-def get_saved_times():
+def get_record():
+    date_key = str(datetime.now()).replace('T', ' ')
+    uuid = generate_uuid(date_key)
 
-    search = request.args.get('country')
-    r = requests.get(f"{API_URL}{search}")
-    return jsonify(r.json())
+    timedata = session['timedata'] if 'timedata' in session.keys() else {}
+    timedata = {date_key:uuid, **timedata }
+    session['timedata'] = timedata
 
+    return jsonify(timedata, sort_keys=False)
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    app.run(debug=True, host="0.0.0.0", port=6000)

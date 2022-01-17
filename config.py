@@ -1,17 +1,14 @@
 
 import os
+import redis
+from decouple import config
+
 
 class BaseConfig(object):
-    CACHE_TYPE = os.environ['CACHE_TYPE']
-    CACHE_REDIS_HOST = os.environ['CACHE_REDIS_HOST']
-    CACHE_REDIS_PORT = os.environ['CACHE_REDIS_PORT']
-    CACHE_REDIS_DB = os.environ['CACHE_REDIS_DB']
-    CACHE_REDIS_URL = os.environ['CACHE_REDIS_URL']
-    CACHE_DEFAULT_TIMEOUT = os.environ['CACHE_DEFAULT_TIMEOUT']
+    SESSION_TYPE = config('SESSION_TYPE')
+    SESSION_PERMANENT = config('SESSION_PERMANENT')
+    SESSION_USE_SIGNER = config('SESSION_USE_SIGNER')
+    SESSION_REDIS = redis.from_url(config('REDIS_URL'))
 
-    SESSION_TYPE = os.environ['CACHE_DEFAULT_TIMEOUT']
-    # app.config['SESSION_TYPE'] = 'redis'
-    # app.config['SESSION_PERMANENT'] = True
-    # app.config['SESSION_USE_SIGNER'] = True
-    # app.config['SESSION_REDIS'] = redis.from_url('redis://localhost:6379')
+
 
