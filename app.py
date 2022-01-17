@@ -18,7 +18,6 @@ app.config.from_object('config.BaseConfig')
 server_session = Session(app)
 
 def generate_uuid(date:str, salt = SECRET_KEY) -> str:
-
     encrypted = hashlib.md5(str(date + salt).encode()).hexdigest()
     return encrypted
 
