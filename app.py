@@ -6,14 +6,14 @@ import redis
 from decouple import config
 from flask import Flask, jsonify, session
 
-SECRET_KEY = config('SECRET_KEY')
 
 app = Flask(__name__)
-app.config['JSON_SORT_KEYS'] = False
 
+app.config['JSON_SORT_KEYS'] = False
 
 r = redis.StrictRedis(host= config('REDIS_HOST'), port=int(config('REDIS_PORT')), db=0)
 
+SECRET_KEY = config('SECRET_KEY')
 
 def generate_uuid(date:str, salt = SECRET_KEY) -> str:
     encrypted = hashlib.md5(str(date + salt).encode()).hexdigest()
