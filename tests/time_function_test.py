@@ -1,4 +1,6 @@
-
+import datetime
+import json
+from collections import Set
 from app import *
 
 def is_key_date(key: str) -> bool:
@@ -29,16 +31,20 @@ def test_base_route():
 
     dformat = "%Y-%m-%d %H:%M:%S"
 
+    uuid_set = {}
     #Check if dates are returned from earliest to first
     presentdate = None
     pastdate  = None
-    for date in data:
+    for date, uuid in data.items():
         if presentdate is None:
             continue
         pastdate = presentdate
         presentdate =  datetime.strptime(date, dformat)
-
         assert presentdate <= pastdate
+
+        # Check for collisions
+        assert uuid not in uuid_set
+        uuid_set.add(uuid)
 
 
 
