@@ -8,3 +8,5 @@ COPY requirements.txt /app
 RUN pip3 install -r requirements.txt --no-cache-dir
 # Copy everything from the current dir to the image
 COPY . .
+
+ENTRYPOINT ["python", "app.py"]
