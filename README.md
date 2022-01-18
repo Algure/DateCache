@@ -25,9 +25,9 @@ This project is built with docker. Docker file builds 2 seperate containers to r
 ### Prerequisites
 Ensure you have the following installed on your local device.
 
-- Python (![Installation guide](https://www.python.org/downloads/))
-- Docker (![Installation guide](https://docs.docker.com/compose/install/))
-- Redis  (![Installation guide](https://redis.io/topics/quickstart))
+- Python ([Installation guide](https://www.python.org/downloads/))
+- Docker ([Installation guide](https://docs.docker.com/compose/install/))
+- Redis  ([Installation guide](https://redis.io/topics/quickstart))
 
 
 To run this on your local machine, clone this repository and install the packages in the requirements.txt file (preferably in a virtual environment). 
