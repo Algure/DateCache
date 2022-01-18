@@ -3,7 +3,6 @@ from flask import  jsonify
 import hashlib
 import json
 from datetime import datetime
-import redis
 
 from decouple import config
 

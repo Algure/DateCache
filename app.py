@@ -1,11 +1,8 @@
 
-import hashlib
-import json
-from datetime import datetime
 import redis
 
 from decouple import config
-from flask import Flask, jsonify, session
+from flask import Flask
 
 from handlers.routes import configure_routes
 
