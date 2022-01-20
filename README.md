@@ -16,7 +16,7 @@ Sample output
 }
 ```
 ##### Disclaimer
-The instructions in this documentattion is intended for mac users. Equivalent steps can be taken on other OS by entering the same commands on terminal or their equivalents. Feel free to open an issue for clarification on machine specific problems.
+The instructions in this documentation is intended for mac users. Equivalent steps can be taken on other OS by entering the same commands on terminal or their equivalents. Feel free to open an issue for clarification on machine specific problems.
 
 ## Running on Local Machine
 
