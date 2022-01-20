@@ -51,6 +51,6 @@ To deploy service in local machine, docker compose would be used. Run the follow
 > docker-compose up -d --build 
 ```
 
-The API should now be accessible via the url : "http://127.0.0.1:5000/"
+The API should now be accessible via the url : "http://localhost:5000/"
 
 
