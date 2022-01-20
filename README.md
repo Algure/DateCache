@@ -15,8 +15,11 @@ Sample output
 
 }
 ```
-##### Disclaimer
+#### Disclaimer
 The instructions in this documentation is intended for mac users. Equivalent steps can be taken on other OS by entering the same commands on terminal or their equivalents. Feel free to open an issue for clarification on machine specific problems.
+
+### Live Implementation
+A live implementation can be accessed via a GET requuest to this link https://dateapi2.herokuapp.com/. The implementation is deployed to a free app tier on heroku and data would persist for a maximum of 24 hours (usually less).
 
 ## Running on Local Machine
 
